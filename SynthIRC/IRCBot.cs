@@ -1,17 +1,15 @@
-﻿using System;
-
-namespace SynthIRC
+﻿namespace SynthIRC
 {
     public class IRCBot : Synth
     {
-        public void Auth(string ip, int port, string pass, string nick, string email)
+        public void Auth(string ip, int port, string nick)
         {
             Connect(ip, port);
-            Send("PASS " + pass + "\r\n");
+            Send("CAP LS\r\n");
             Send("NICK " + nick + "\r\n");
-            Send("USER " + nick + " " + email + " " + "127.0.0.1" + " " + ":Synth" + "\r\n");
+            Send("USER " + nick.ToLower() + " 0 * :Synth\r\n");
 
-            for(int i=0; i<2; i++) Read();
+            for(int i=0; i<2; i++) Read(); //Server is answer
         }
         public void Join(string chan)
         {
@@ -21,9 +19,9 @@ namespace SynthIRC
         {
             Send("PRIVMSG " + who + " :" + msg + "\r\n");
         }
-        public void Reading()
+        public string[] Reading()
         {
-            //
+            return Read().Split(' ');
         }
         public void Quit()
         {

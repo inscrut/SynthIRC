@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Net.Sockets;
+using System.Net;
 
 namespace SynthIRC
 {
@@ -12,7 +13,7 @@ namespace SynthIRC
         {
             try
             {
-                client = new TcpClient(ip, port);
+                client = new TcpClient(Dns.GetHostAddresses(ip)[0].ToString(), port);
                 stream = client.GetStream();
             }
             catch { /*ERROR*/ }
